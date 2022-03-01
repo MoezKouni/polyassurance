@@ -169,7 +169,7 @@ function TeamForm({ agent, params, permissions }: any) {
       },
     },
   ];
-  const permissionSections = ["team", "clients", "documents", "produits"];
+  const permissionSections = ["team", "clients", "documents", "produits", "demandes"];
 
   const { mutateAsync: createMember, isLoading: createLoading } = useMutation(
     createNewTeammember,

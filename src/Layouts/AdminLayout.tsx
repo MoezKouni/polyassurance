@@ -32,7 +32,7 @@ import { IoDocumentsOutline } from "react-icons/io5";
 import { BiUser } from "react-icons/bi";
 import { BsChatSquareQuote } from "react-icons/bs";
 import { Logo } from "../components/Logo/Logo";
-import { Link as ReactLink, useHistory } from "react-router-dom";
+import { Link as ReactLink, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../services/auth/services";
 
 interface LinkItemProps {
@@ -44,8 +44,8 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Accueil", icon: FiHome, href: "/" },
   { name: "Demandes", icon: BsChatSquareQuote, href: "/demandes" },
   { name: "Clients", icon: BiUser, href: "/clients" },
-  { name: "Documents", icon: IoDocumentsOutline, href: "/documents" },
-  { name: "Produits", icon: FiStar, href: "/produits" },
+  // { name: "Documents", icon: IoDocumentsOutline, href: "/documents" },
+  // { name: "Produits", icon: FiStar, href: "/produits" },
   { name: "Equipe", icon: AiOutlineTeam, href: "/equipe" },
 ];
 
@@ -93,6 +93,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
+      zIndex={2}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
@@ -116,6 +117,7 @@ interface NavItemProps extends FlexProps {
   href: string;
 }
 const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
+  const { pathname } = useLocation()
   return (
     <ReactLink to={href}>
       <Link
@@ -135,6 +137,9 @@ const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
             color: "white",
           }}
           {...rest}
+          bg={pathname === href ? "blue.500":"white"}
+          color={pathname === href ? "white":"black"}
+          my="2"
         >
           {icon && (
             <Icon

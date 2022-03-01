@@ -29,6 +29,85 @@ export default function CardDetails({
   isLoading: boolean;
   notAuthorized: any;
 }) {
+  const getContent = () => {
+    if(title === "Dernières Demandes"){
+      return (
+        data.map((el: any, i: number) => (
+          <div key={i}>
+            <ListItem
+              key={i}
+              display="flex"
+              alignItems={"center"}
+              justifyContent="space-between"
+            >
+              <Box display="flex" alignItems={"center"}>
+                <Image
+                  src={el.user.avatar || avatarPlaceholder}
+                  rounded="full"
+                  fit={"cover"}
+                  w="30"
+                  h="30"
+                />
+                <Stack spacing={0} ml="2">
+                  <Text fontSize={"md"}>
+                    {el.user.firstname + " " + el.user.lastname}
+                  </Text>
+                  <Text fontSize={"sm"} color="gray.500">
+                    {moment(el.createdAt).format("DD/MM/YYYY - H:mm")}
+                  </Text>
+                </Stack>
+              </Box>
+              <Link to={`${baseLink}/details/${el._id}`}>
+                <IconButton
+                  aria-label="voir détails"
+                  icon={<ChevronRightIcon />}
+                  variant="ghost"
+                />
+              </Link>
+            </ListItem>
+            {i < data.length - 1 && <Divider />}
+          </div>
+        ))
+      )
+    } else {
+      return data.map((el: any, i: number) => (
+        <div key={i}>
+          <ListItem
+            display="flex"
+            alignItems={"center"}
+            justifyContent="space-between"
+          >
+            <Box display="flex" alignItems={"center"}>
+              <Image
+                src={el.avatar || avatarPlaceholder}
+                rounded="full"
+                fit={"cover"}
+                w="30"
+                h="30"
+              />
+              <Stack spacing={0} ml="2">
+                <Text fontSize={"md"}>
+                  {el.firstname + " " + el.lastname}
+                </Text>
+                <Text fontSize={"sm"} color="gray.500">
+                  {moment(el.createdAt).format("DD/MM/YYYY - H:mm")}
+                </Text>
+              </Stack>
+            </Box>
+            <Link to={`${baseLink}/details/${el._id}`}>
+              <IconButton
+                aria-label="voir détails"
+                icon={<ChevronRightIcon />}
+                variant="ghost"
+              />
+            </Link>
+          </ListItem>
+          {i < data.length - 1 && <Divider />}
+        </div>
+      ))
+    }
+  }
+
   return (
     <Box>
       <Heading mb="6" textAlign={"center"} fontSize="2xl">
@@ -40,42 +119,7 @@ export default function CardDetails({
         ) : notAuthorized ? (
           <Forbidden msg={notAuthorized} />
         ) : (
-          data.map((el: any, i: number) => (
-            <>
-              <ListItem
-                key={i}
-                display="flex"
-                alignItems={"center"}
-                justifyContent="space-between"
-              >
-                <Box display="flex" alignItems={"center"}>
-                  <Image
-                    src={el.avatar || avatarPlaceholder}
-                    rounded="full"
-                    fit={"cover"}
-                    w="30"
-                    h="30"
-                  />
-                  <Stack spacing={0} ml="2">
-                    <Text fontSize={"md"}>
-                      {el.firstname + " " + el.lastname}
-                    </Text>
-                    <Text fontSize={"sm"} color="gray.500">
-                      {moment(el.createdAt).format("DD/MM/YYYY - H:mm")}
-                    </Text>
-                  </Stack>
-                </Box>
-                <Link to={`${baseLink}/details/${el._id}`}>
-                  <IconButton
-                    aria-label="voir détails"
-                    icon={<ChevronRightIcon />}
-                    variant="ghost"
-                  />
-                </Link>
-              </ListItem>
-              {i < data.length - 1 && <Divider />}
-            </>
-          ))
+          getContent()
         )}
         {!notAuthorized && <ListItem justifyContent={"center"} display="flex">
           <Link to={baseLink}>

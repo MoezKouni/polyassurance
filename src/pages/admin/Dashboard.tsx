@@ -1,53 +1,16 @@
 import { Grid, GridItem, Heading, HStack, Text } from "@chakra-ui/react";
 import moment from "moment";
-import AdminLayout from "../../Layouts/AdminLayout";
 import { useAuthProvider } from "../../providers/AuthProvider";
 import CardDetails from "../../components/CardDetails/CardDetails";
 import { getRecentClients } from "../../services/client/services";
 import { useQuery } from "react-query";
 import { useState } from "react";
-
-const fakeData = [
-  {
-    id: 1,
-    firstname: "Marwa",
-    lastname: "Bouchiba",
-    avatar: "",
-    createdAt: new Date(),
-  },
-  {
-    id: 2,
-    firstname: "Imad",
-    lastname: "Gharbi",
-    avatar: "",
-    createdAt: new Date(),
-  },
-  {
-    id: 3,
-    firstname: "Chaker",
-    lastname: "Hsan",
-    avatar: "",
-    createdAt: new Date(),
-  },
-  {
-    id: 4,
-    firstname: "Med",
-    lastname: "Salah",
-    avatar: "",
-    createdAt: new Date(),
-  },
-  {
-    id: 5,
-    firstname: "Foulen",
-    lastname: "Ben Falten",
-    avatar: "",
-    createdAt: new Date(),
-  },
-];
+import { getRecentDemandes } from "../../services/demandes/services";
 
 export default function Dashboard() {
   const { data } = useAuthProvider();
   const [notAuthorizedClients, setNotAuthorizedClients] = useState<boolean | string>(false);
+  const [notAuthorizedDemandes, setNotAuthorizedDemandes] = useState<boolean | string>(false);
   const { data: recentClients, isLoading: loadingClients } = useQuery(
     "recent-clients",
     getRecentClients,
@@ -57,6 +20,17 @@ export default function Dashboard() {
       onError: (err: any) =>
         err.response.data.statusCode === 403 &&
         setNotAuthorizedClients(err.response.data.message),
+    }
+  );
+  const { data: recentDemandes, isLoading: loadingDemandes } = useQuery(
+    "recent-demandes",
+    getRecentDemandes,
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+      onError: (err: any) =>
+        err.response.data.statusCode === 403 &&
+        setNotAuthorizedDemandes(err.response.data.message),
     }
   );
   return (
@@ -70,7 +44,7 @@ export default function Dashboard() {
           {moment(new Date()).format("dddd, DD/MM/YYYY")}
         </Text>
       </HStack>
-      <Grid templateColumns="repeat(3, 1fr)" gap={4} my="4">
+      <Grid templateColumns={{base: "1fr", md:"repeat(2, 1fr)"}} gap={4} my="4">
         <GridItem boxShadow={"xl"} bg="white" rounded={"xl"} p="6">
           <CardDetails
             title="Dernières Inscriptions"
@@ -83,13 +57,13 @@ export default function Dashboard() {
         <GridItem boxShadow={"xl"} bg="white" rounded={"xl"} p="6">
           <CardDetails
             title="Dernières Demandes"
-            data={fakeData}
+            data={recentDemandes}
             baseLink={"/demandes"}
-            isLoading={false}
-            notAuthorized={false}
+            isLoading={loadingDemandes}
+            notAuthorized={notAuthorizedDemandes}
             />
         </GridItem>
-        <GridItem boxShadow={"xl"} bg="white" rounded={"xl"} p="6">
+        {/* <GridItem boxShadow={"xl"} bg="white" rounded={"xl"} p="6">
           <CardDetails
             title="Dernière connexion équipe"
             data={fakeData}
@@ -97,7 +71,7 @@ export default function Dashboard() {
             isLoading={false}
             notAuthorized={false}
           />
-        </GridItem>
+        </GridItem> */}
       </Grid>
     </>
   );

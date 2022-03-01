@@ -6,6 +6,7 @@ import {
   Heading,
   Stack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
@@ -192,17 +193,6 @@ export default function Demande() {
   const { data: auth } = useAuthProvider();
   const methods = type === "habitation" ? immoMethods : autoMethods;
 
-  const uploadImage = async (file: any, fieldName: string) => {
-    const formData = new FormData();
-    formData.append(fieldName, file);
-    const response = await axiosInstance({
-      method: "post",
-      url: `/documents/${fieldName}/upload`,
-      data: formData,
-    });
-    return response.data;
-  };
-
   const onSubmit = (data: any) => {
     if (!auth) {
       history.push("/connexion");
@@ -210,33 +200,25 @@ export default function Demande() {
     }
     const formData = new FormData();
     Object.keys(data).map((el: any) => formData.append(el, data[el]));
-    // let docs: any = [];
-    // if (data.cin) {
-    //   const res = await uploadImage(methods.getValues("cin"), "cin");
-    //   docs.push(res.file.url);
-    // }
-    // if (data.plan) {
-    //   const res = await uploadImage(methods.getValues("plan"), "plan");
-    //   docs.push(res.file.url);
-    // }
-    // if (data.carte_grise) {
-    //   const res = await uploadImage(
-    //     methods.getValues("carte_grise"),
-    //     "carte_grise"
-    //   );
-    //   docs.push(res.file.url);
-    // }
-    // formData.append("documents", docs);
-    // formData.append("user", auth._id)
-    // console.log(docs)
+    formData.append("docs[]", docs.cin);
+    formData.append("docs[]", docs.plan);
+    formData.append("docs[]", docs.carte_grise);
+    formData.append("type", type);
     createNewDemande(formData);
   };
 
   const { mutateAsync: createNewDemande, isLoading: demandeLoading } =
     useMutation(createDemande);
 
+  const [docs, setDocs] = useState<any>({
+    cin: null,
+    plan: null,
+    carte_grise: null,
+  });
+
   const handleFileChange = (e: any) => {
-    methods.setValue(e.target.name, e.target.files[0]);
+    // methods.setValue(e.target.name, e.target.files[0]);
+    setDocs({ ...docs, [e.target.name]: e.target.files[0] });
   };
   return (
     <Container maxW={"3xl"}>
@@ -278,14 +260,14 @@ export default function Demande() {
               ))}
           {type === "automobile" ? (
             <>
-              {/* <Box bg="gray.100" p="2" rounded="lg">
+              <Box bg="gray.100" p="2" rounded="lg">
                 <FormLabel>Carte grise</FormLabel>
                 <input
                   type="file"
                   name="carte_grise"
                   onChange={handleFileChange}
                 />
-              </Box> */}
+              </Box>
               <Box bg="gray.100" p="2" rounded="lg">
                 <FormLabel>Carte d'identitée nationale</FormLabel>
                 <input type="file" name="cin" onChange={handleFileChange} />

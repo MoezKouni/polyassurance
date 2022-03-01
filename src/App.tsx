@@ -12,6 +12,8 @@ import TeamForm from "./pages/admin/TeamForm";
 import Clients from "./pages/admin/Clients";
 import ClientContainer from "./pages/admin/ClientForm";
 import ClientDetails from "./pages/admin/ClientDetails";
+import Demandes from "./pages/admin/Demandes";
+import DemandeDetails from "./pages/admin/DemandeDetails";
 
 function App() {
   const { data } = useAuthProvider();
@@ -68,6 +70,16 @@ function App() {
             <Route path={"/equipe/modifier"}>
               <AdminLayout>
                 <TeamForm />
+              </AdminLayout>
+            </Route>
+            <Route exact path={`/demandes`}>
+              <AdminLayout>
+                <Demandes />
+              </AdminLayout>
+            </Route>
+            <Route exact path={`/demandes/details/:id`}>
+              <AdminLayout>
+                <DemandeDetails />
               </AdminLayout>
             </Route>
             <Route path={"/produits"}>
