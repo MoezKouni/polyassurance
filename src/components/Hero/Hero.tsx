@@ -11,6 +11,8 @@ import {
   Container,
 } from "@chakra-ui/react";
 import { useAuthProvider } from "../../providers/AuthProvider";
+import heroImg from "../../assets/hero.jpg";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const { data } = useAuthProvider();
@@ -43,10 +45,10 @@ export default function Hero() {
                 zIndex: -1,
               }}
             >
-              Write once,
+              MEILLEURE COUVERTURE
             </Text>
             <br />
-            <Text as={"span"}>use everywhere!</Text>
+            <Text as={"span"}>POUR VOUS!</Text>
           </Heading>
           <Text color={"gray.500"}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
@@ -57,16 +59,18 @@ export default function Hero() {
             spacing={{ base: 4, sm: 6 }}
             direction={{ base: "column", sm: "row" }}
           >
-            <Button
-              rounded={"full"}
-              size={"lg"}
-              fontWeight={"normal"}
-              px={6}
-              colorScheme={"twitter"}
-              _hover={{ bg: "blue.500" }}
-            >
-              {data ? "Mon profil" : "Se connecter"}
-            </Button>
+            <Link to="/connexion">
+              <Button
+                rounded={"full"}
+                size={"lg"}
+                fontWeight={"normal"}
+                px={6}
+                colorScheme={"twitter"}
+                _hover={{ bg: "blue.500" }}
+              >
+                {data ? "Mon profil" : "Se connecter"}
+              </Button>
+            </Link>
           </Stack>
         </Stack>
         <Flex
@@ -89,9 +93,7 @@ export default function Hero() {
               fit={"cover"}
               align={"center"}
               w={"100%"}
-              src={
-                "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80"
-              }
+              src={heroImg}
             />
           </Box>
         </Flex>

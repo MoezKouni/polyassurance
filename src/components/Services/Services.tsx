@@ -1,6 +1,33 @@
 import { Box, Container, Heading, Text } from "@chakra-ui/react";
 import Card from "../Card/Card";
 import { Swiper, SwiperSlide } from "swiper/react";
+import assAuto from "../../assets/ass_auto.jpg";
+import assImmo from "../../assets/assImo.jpg";
+import assSante from "../../assets/ma-sante.jpg";
+
+const services = [
+  {
+    img: assAuto,
+    title: "ASSURANCE AUTOMOBILE",
+    description:
+      "Votre véhicule vous accompagne sur tous les trajets du quotidien. Pensez à le protéger ainsi que ses occupants avec une bonne assurance auto",
+    disabled: false,
+  },
+  {
+    img: assImmo,
+    title: "MULTIRISQUES HABITATION",
+    description:
+      "Que vous soyez propriétaire ou locataire, Votre maison et tout ce qu'elle contient constitue votre cadre de vie. Pensez à la protéger avec une assurance",
+    disabled: false,
+  },
+  {
+    img: assSante,
+    title: "ASSURANCES SANTÉ",
+    description:
+      "Votre bien le plus précieux, en Tunisie ou à l'international, l'assurance maladie n'est plus une option !",
+    disabled: true,
+  },
+];
 
 export default function Services() {
   return (
@@ -49,15 +76,11 @@ export default function Services() {
           }}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
+          {services.map((el: any) => (
+            <SwiperSlide key={el.title}>
+              <Card item={el} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </Container>
     </Box>

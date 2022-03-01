@@ -91,19 +91,16 @@ export default function Footer() {
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Company</ListHeader>
-            <Link href={"#"}>About us</Link>
-            <Link href={"#"}>Blog</Link>
-            <Link href={"#"}>Contact us</Link>
-            <Link href={"#"}>Pricing</Link>
-            <Link href={"#"}>Testimonials</Link>
+            <ReactLink to="nos-produits">
+              <Link href={"#"}>Nos produits</Link>
+            </ReactLink>
+            <Link href={"#"}>A propos de nous</Link>
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Support</ListHeader>
-            <Link href={"#"}>Help Center</Link>
-            <Link href={"#"}>Terms of Service</Link>
-            <Link href={"#"}>Legal</Link>
-            <Link href={"#"}>Privacy Policy</Link>
-            <Link href={"#"}>Satus</Link>
+            <Link href={"#"}>Centre d'assistance</Link>
+            <Link href={"#"}>Conditions d'utilisation</Link>
+            <Link href={"#"}>Politique de confidentialité</Link>
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Stay up to date</ListHeader>

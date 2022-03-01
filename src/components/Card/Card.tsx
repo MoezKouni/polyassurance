@@ -17,7 +17,7 @@ const data = {
   numReviews: 34,
 };
 
-function Card() {
+function Card({ item }: any) {
   return (
     <Flex p={0} w="full" alignItems="center" justifyContent="center" my="6">
       <Box
@@ -29,8 +29,12 @@ function Card() {
         position="relative"
       >
         <Image
-          src={data.imageURL}
-          alt={`Picture of ${data.name}`}
+          src={item.img}
+          alt={`Picture of ${item.title}`}
+          height="300px"
+          fit="cover"
+          width="100%"
+          objectPosition={"top"}
           roundedTop="lg"
         />
 
@@ -48,17 +52,18 @@ function Card() {
               lineHeight="tight"
               isTruncated
             >
-              {data.name}
+              {item.title}
             </Box>
-            <Text>
-              Votre bien le plus précieux, en Tunisie ou à l'international,
-              l'assurance maladie n'est plus une option !
-            </Text>
+            <Text noOfLines={3}>{item.description}</Text>
           </Flex>
 
           <Flex justifyContent="space-between" alignContent="center" mt="4">
-            <Button variant={"outline"} colorScheme="twitter">
-              Voir détails
+            <Button
+              variant={"ghost"}
+              colorScheme="twitter"
+              disabled={item.disabled}
+            >
+              {item.disabled ? "Bientôt disponible!" : "Voir détails"}
             </Button>
           </Flex>
         </Box>
